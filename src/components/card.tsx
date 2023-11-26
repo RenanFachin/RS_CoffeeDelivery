@@ -1,19 +1,36 @@
+'use client'
+
 import Image from 'next/image'
+import { ShoppingCart, Minus, Plus } from 'lucide-react'
+import { useState } from 'react'
 
 interface CardProps {
   coffee: {
     // id: string
-    // title: string
-    // description: string
+    title: string
+    description: string
     tags: string[]
-    // price: number
+    price: number
     image: string
   }
 }
 
 export function Card({ coffee }: CardProps) {
+  const [quantity, setQuantity] = useState<number>(1)
+
+  function handleIncrement() {
+    setQuantity((state) => state + 1)
+  }
+
+  function handleDecrement() {
+    if (quantity === 1) {
+      return
+    }
+    setQuantity((state) => state - 1)
+  }
+
   return (
-    <div className="bg-base-card rounded-tr-lg rounded-bl-4xl px-6 pb-5 min-w-[256px] min-h-[310px] flex flex-col text-center">
+    <div className="bg-base-card rounded-tr-lg rounded-bl-4xl px-5 pb-5 min-w-[256px] min-h-[310px] flex flex-col text-center">
       <Image
         src={coffee.image}
         alt=""
@@ -34,6 +51,41 @@ export function Card({ coffee }: CardProps) {
             </span>
           )
         })}
+      </div>
+
+      <h2 className="mt-4 font-title text-xl leading-tight text-base-subtitle">
+        {coffee.title}
+      </h2>
+
+      <p className="mt-2 text-base-label text-sm leading-tight">
+        {coffee.description}
+      </p>
+
+      <div className="flex items-center justify-between mt-8">
+        <div className="text-sm text-base-text leading-tight">
+          R$ {''}
+          <span className="font-title text-2xl font-bold">
+            {coffee.price.toFixed(2)}
+          </span>
+        </div>
+
+        <div className="flex items-center gap-2 ">
+          <div className="flex items-center gap-2 p-2 bg-base-button rounded-md">
+            <button onClick={handleDecrement}>
+              <Minus className="w-4 h-4 text-purple-900 hover:text-purple-500" />
+            </button>
+
+            {quantity}
+
+            <button onClick={handleIncrement}>
+              <Plus className="w-4 h-4 text-purple-900 hover:text-purple-500" />
+            </button>
+          </div>
+
+          <button className="bg-purple-900 p-2 flex items-center justify-center rounded-md">
+            <ShoppingCart className="w-5 h-5 text-white" />
+          </button>
+        </div>
       </div>
     </div>
   )
