@@ -1,9 +1,18 @@
 import type { Metadata } from 'next'
 import { Roboto, Baloo_2 } from 'next/font/google'
 import './globals.css'
+import { Header } from '@/components/header'
 
-const roboto = Roboto({ subsets: ['latin'], weight: ['400', '700'], variable: '--font-roboto' })
-const baloo = Baloo_2({ subsets: ['latin'], weight: ['700', '800'], variable: '--font-baloo' })
+const roboto = Roboto({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  variable: '--font-roboto',
+})
+const baloo = Baloo_2({
+  subsets: ['latin'],
+  weight: ['700', '800'],
+  variable: '--font-baloo',
+})
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -17,7 +26,8 @@ export default function RootLayout({
 }) {
   return (
     <html className={`${roboto.variable} ${baloo.variable}`} lang="pt">
-      <body className='bg-base-title'>
+      <body className="bg-background max-w-[1120px] mx-auto min-h-screen">
+        <Header />
         {children}
       </body>
     </html>
