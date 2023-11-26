@@ -81,7 +81,7 @@ export default function Home() {
 
       <main className="grid grid-cols-4 gap-8">
         {coffees.map((coffee) => {
-          return <Card key={coffee.id} image={coffee.image} />
+          return <Card key={coffee.id} coffee={coffee} />
         })}
       </main>
     </div>

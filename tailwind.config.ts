@@ -39,6 +39,9 @@ const config: Config = {
       borderRadius: {
         '4xl': '2rem',
       },
+      fontSize: {
+        xxs: ['10px', '13px'],
+      },
     },
   },
   plugins: [],
