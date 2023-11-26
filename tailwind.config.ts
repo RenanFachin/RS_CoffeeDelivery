@@ -36,6 +36,9 @@ const config: Config = {
         sans: 'var(--font-roboto)',
         title: 'var(--font-baloo)',
       },
+      borderRadius: {
+        '4xl': '2rem',
+      },
     },
   },
   plugins: [],
