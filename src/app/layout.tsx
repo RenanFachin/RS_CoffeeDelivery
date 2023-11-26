@@ -26,7 +26,7 @@ export default function RootLayout({
 }) {
   return (
     <html className={`${roboto.variable} ${baloo.variable}`} lang="pt">
-      <body className="bg-background max-w-[1120px] mx-auto min-h-screen">
+      <body className="bg-background max-w-[1120px] mx-auto min-h-screen antialiased">
         <Header />
         {children}
       </body>
