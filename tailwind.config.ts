@@ -30,6 +30,8 @@ const config: Config = {
       },
       background: '#FAFAFA',
       white: '#FFFFFF',
+      alert: '#FF0F0F',
+      tranparent: 'transparent',
     },
     extend: {
       fontFamily: {
@@ -41,6 +43,10 @@ const config: Config = {
       },
       fontSize: {
         xxs: ['10px', '13px'],
+      },
+      gridTemplateColumns: {
+        checkoutPage: '640px 448px',
+        inputs: '1fr 1fr 60px',
       },
     },
   },
