@@ -37,13 +37,13 @@ export const TextInput = forwardRef(function TextInput(
         type="text"
         onFocus={handleFocus}
         onBlur={handleBlur}
-        className="w-full bg-base-input p-4 text-sm leading-tight rounded-sm border border-base-button text-base-label placeholder:text-base-label outline-none focus:border-yellow-500"
+        className="w-full bg-base-input p-4 text-sm leading-tight rounded-sm border border-base-button text-base-text placeholder:text-base-label outline-none focus:border-yellow-500"
         ref={ref}
         {...props}
       />
 
       {error?.message ? (
-        <span className="text-alert" role="alert">
+        <span className="border-alert" role="alert">
           {error.message}
         </span>
       ) : null}

@@ -9,11 +9,34 @@ import {
   Landmark,
   Banknote,
 } from 'lucide-react'
+
+// Formulário
 import { useForm } from 'react-hook-form'
 
-export default function Checkout() {
-  const { register, handleSubmit, watch } = useForm({})
+// Validação de formulário
+import { zodResolver } from '@hookform/resolvers/zod'
+import * as zod from 'zod'
 
+// schema de validação
+const orderFormValidationSchema = zod.object({
+  cep: zod.number({ invalid_type_error: 'Informe o CEP' }),
+  street: zod.string().min(1, 'Informe a rua'),
+  number: zod.number().min(1, 'Informe o número'),
+  fullAddress: zod.string().min(1, 'Informe o seu endereço'),
+  neighborhood: zod.string().min(1, 'Informe o Bairro'),
+  city: zod.string().min(1, 'Informe a cidade'),
+  state: zod.string().min(1, 'Informe a UF'),
+  paymentMethod: zod.enum(['credit', 'debit', 'cash'], {
+    invalid_type_error: 'Informe um método de pagamento',
+  }),
+})
+
+export default function Checkout() {
+  const { register, handleSubmit, watch } = useForm({
+    resolver: zodResolver(orderFormValidationSchema),
+  })
+
+  // Se o usuário não tiver um método selecionado, desabilitar o botão
   const selectedPaymentMethod = watch('paymentMethod')
 
   function handleOrderCheckout(data: any) {
@@ -44,7 +67,11 @@ export default function Checkout() {
                 </div>
 
                 <div className="mt-8 flex flex-col gap-4">
-                  <TextInput placeholder="CEP" {...register('cep')} />
+                  <TextInput
+                    placeholder="CEP"
+                    maxLength={8}
+                    {...register('cep', { valueAsNumber: true })}
+                  />
                   <TextInput placeholder="Rua" {...register('street')} />
 
                   <div className="grid grid-cols-2 gap-4">
@@ -65,7 +92,11 @@ export default function Checkout() {
                       {...register('neighborhood')}
                     />
                     <TextInput placeholder="Cidade" {...register('city')} />
-                    <TextInput placeholder="UF" {...register('state')} />
+                    <TextInput
+                      placeholder="UF"
+                      {...register('state')}
+                      maxLength={2}
+                    />
                   </div>
                 </div>
               </div>
@@ -128,7 +159,8 @@ export default function Checkout() {
             <button
               type="submit"
               form="order"
-              className="bg-yellow-500 text-white px-5 py-3 rounded-md w-full uppercase text-sm font-bold leading-relaxed"
+              disabled={!selectedPaymentMethod}
+              className="bg-yellow-500 text-white px-5 py-3 rounded-md w-full uppercase text-sm font-bold leading-relaxed disabled:opacity-30 disabled:cursor-not-allowed hover:bg-yellow-900 transition-colors duration-200"
             >
               Confirmar pedido
             </button>
