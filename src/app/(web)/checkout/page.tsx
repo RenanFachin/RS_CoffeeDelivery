@@ -16,9 +16,8 @@ export default function Checkout() {
 
   const selectedPaymentMethod = watch('paymentMethod')
 
-  function handleOrderCheckout() {
-    // console.log('clicou')
-    // console.log(selectedPaymentMethod)
+  function handleOrderCheckout(data: any) {
+    console.log(data)
   }
 
   return (
@@ -45,18 +44,28 @@ export default function Checkout() {
                 </div>
 
                 <div className="mt-8 flex flex-col gap-4">
-                  <TextInput placeholder="CEP" />
-                  <TextInput placeholder="Rua" />
+                  <TextInput placeholder="CEP" {...register('cep')} />
+                  <TextInput placeholder="Rua" {...register('street')} />
 
                   <div className="grid grid-cols-2 gap-4">
-                    <TextInput placeholder="Número" type="number" />
-                    <TextInput placeholder="Complemento" />
+                    <TextInput
+                      placeholder="Número"
+                      type="number"
+                      {...register('number')}
+                    />
+                    <TextInput
+                      placeholder="Complemento"
+                      {...register('fullAddress')}
+                    />
                   </div>
 
                   <div className="grid grid-cols-inputs gap-4">
-                    <TextInput placeholder="Bairro" />
-                    <TextInput placeholder="Cidade" />
-                    <TextInput placeholder="UF" />
+                    <TextInput
+                      placeholder="Bairro"
+                      {...register('neighborhood')}
+                    />
+                    <TextInput placeholder="Cidade" {...register('city')} />
+                    <TextInput placeholder="UF" {...register('state')} />
                   </div>
                 </div>
               </div>
