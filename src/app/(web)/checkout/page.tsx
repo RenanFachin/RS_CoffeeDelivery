@@ -80,12 +80,21 @@ export default function Checkout() {
                     error={errors.cep}
                     {...register('cep', { valueAsNumber: true })}
                   />
-                  <TextInput placeholder="Rua" {...register('street')} />
+                  <TextInput
+                    placeholder="Rua"
+                    error={errors.street}
+                    {...register('street')}
+                  />
 
                   <div className="grid grid-cols-2 gap-4">
-                    <TextInput placeholder="Número" {...register('number')} />
+                    <TextInput
+                      placeholder="Número"
+                      error={errors.number}
+                      {...register('number')}
+                    />
                     <TextInput
                       placeholder="Complemento"
+                      error={errors.fullAddress}
                       {...register('fullAddress')}
                     />
                   </div>
@@ -93,13 +102,19 @@ export default function Checkout() {
                   <div className="grid grid-cols-inputs gap-4">
                     <TextInput
                       placeholder="Bairro"
+                      error={errors.neighborhood}
                       {...register('neighborhood')}
                     />
-                    <TextInput placeholder="Cidade" {...register('city')} />
+                    <TextInput
+                      placeholder="Cidade"
+                      error={errors.city}
+                      {...register('city')}
+                    />
                     <TextInput
                       placeholder="UF"
-                      {...register('state')}
                       maxLength={2}
+                      error={errors.state}
+                      {...register('state')}
                     />
                   </div>
                 </div>
