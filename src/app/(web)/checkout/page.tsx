@@ -21,7 +21,7 @@ import * as zod from 'zod'
 const orderFormValidationSchema = zod.object({
   cep: zod.number({ invalid_type_error: 'Informe o CEP' }),
   street: zod.string().min(1, 'Informe a rua'),
-  number: zod.number().min(1, 'Informe o número'),
+  number: zod.string().min(1, 'Informe o número'),
   fullAddress: zod.string().min(1, 'Informe o seu endereço'),
   neighborhood: zod.string().min(1, 'Informe o Bairro'),
   city: zod.string().min(1, 'Informe a cidade'),
@@ -31,15 +31,22 @@ const orderFormValidationSchema = zod.object({
   }),
 })
 
+type OrderFormData = zod.infer<typeof orderFormValidationSchema>
+
 export default function Checkout() {
-  const { register, handleSubmit, watch } = useForm({
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<OrderFormData>({
     resolver: zodResolver(orderFormValidationSchema),
   })
 
   // Se o usuário não tiver um método selecionado, desabilitar o botão
   const selectedPaymentMethod = watch('paymentMethod')
 
-  function handleOrderCheckout(data: any) {
+  function handleOrderCheckout(data: OrderFormData) {
     console.log(data)
   }
 
@@ -70,16 +77,13 @@ export default function Checkout() {
                   <TextInput
                     placeholder="CEP"
                     maxLength={8}
+                    error={errors.cep}
                     {...register('cep', { valueAsNumber: true })}
                   />
                   <TextInput placeholder="Rua" {...register('street')} />
 
                   <div className="grid grid-cols-2 gap-4">
-                    <TextInput
-                      placeholder="Número"
-                      type="number"
-                      {...register('number')}
-                    />
+                    <TextInput placeholder="Número" {...register('number')} />
                     <TextInput
                       placeholder="Complemento"
                       {...register('fullAddress')}
