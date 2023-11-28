@@ -21,6 +21,8 @@ import * as zod from 'zod'
 import { Fragment } from 'react'
 import { QuantityInput } from '@/components/form/quantity-input'
 import { Divider } from '@/components/divider'
+import { useCart } from '@/hooks/useCart'
+import Link from 'next/link'
 
 // schema de validação
 const orderFormValidationSchema = zod.object({
@@ -36,7 +38,7 @@ const orderFormValidationSchema = zod.object({
   }),
 })
 
-type OrderFormData = zod.infer<typeof orderFormValidationSchema>
+export type OrderFormData = zod.infer<typeof orderFormValidationSchema>
 
 export default function Checkout() {
   const {
@@ -54,6 +56,8 @@ export default function Checkout() {
   function handleOrderCheckout(data: OrderFormData) {
     console.log(data)
   }
+
+  const { cartItems } = useCart()
 
   return (
     <main className="mt-10">
@@ -181,95 +185,53 @@ export default function Checkout() {
           </h2>
 
           <div className="bg-base-card p-10">
-            <Fragment>
-              <div className="flex items-start justify-between px-1 py-2">
-                <div className="flex items-start gap-5">
-                  <Image
-                    src={'/coffees/americano.png'}
-                    alt=""
-                    width={64}
-                    height={64}
-                    quality={100}
-                  />
-
-                  <div className="flex flex-col items-start gap-2">
-                    <h2 className="leading-tight text-base-subtitle">
-                      Expresso Americano
-                    </h2>
-
-                    <div className="flex items-center gap-2">
-                      <QuantityInput
-                        decrementQuantity={() => {
-                          console.log()
-                        }}
-                        incrementQuantity={() => {
-                          console.log()
-                        }}
-                        quantity={1}
+            {cartItems.map((cartItem) => {
+              return (
+                <Fragment key={cartItem.id}>
+                  <div className="flex items-start justify-between px-1 py-2">
+                    <div className="flex items-start gap-5">
+                      <Image
+                        src={cartItem.image}
+                        alt=""
+                        width={64}
+                        height={64}
+                        quality={100}
                       />
 
-                      <button className="bg-base-button rounded-md flex items-center gap-2 p-2 hover:bg-base-hover">
-                        <Trash className="w-4 h-4 text-purple-500" />
-                        <span className="text-sm leading-relaxed text-base-text uppercase">
-                          REMOVER
-                        </span>
-                      </button>
+                      <div className="flex flex-col items-start gap-2">
+                        <h2 className="leading-tight text-base-subtitle">
+                          {cartItem.title}
+                        </h2>
+
+                        <div className="flex items-center gap-2">
+                          <QuantityInput
+                            decrementQuantity={() => console.log()}
+                            incrementQuantity={() => console.log()}
+                            quantity={cartItem.quantity}
+                          />
+
+                          <button
+                            onClick={() => console.log()}
+                            className="bg-base-button rounded-md flex items-center gap-2 p-2 hover:bg-base-hover"
+                          >
+                            <Trash className="w-4 h-4 text-purple-500" />
+                            <span className="text-sm leading-relaxed text-base-text uppercase">
+                              REMOVER
+                            </span>
+                          </button>
+                        </div>
+                      </div>
                     </div>
+
+                    <span className="font-bold leading-tight text-base-text">
+                      R$ 9,90
+                    </span>
                   </div>
-                </div>
 
-                <span className="font-bold leading-tight text-base-text">
-                  R$ 9,90
-                </span>
-              </div>
-
-              <Divider />
-            </Fragment>
-
-            <Fragment>
-              <div className="flex items-start justify-between px-1 py-2">
-                <div className="flex items-start gap-5">
-                  <Image
-                    src={'/coffees/americano.png'}
-                    alt=""
-                    width={64}
-                    height={64}
-                    quality={100}
-                  />
-
-                  <div className="flex flex-col items-start gap-2">
-                    <h2 className="leading-tight text-base-subtitle">
-                      Expresso Americano
-                    </h2>
-
-                    <div className="flex items-center gap-2">
-                      <QuantityInput
-                        decrementQuantity={() => {
-                          console.log()
-                        }}
-                        incrementQuantity={() => {
-                          console.log()
-                        }}
-                        quantity={1}
-                      />
-
-                      <button className="bg-base-button rounded-md flex items-center gap-2 p-2 hover:bg-base-hover">
-                        <Trash className="w-4 h-4 text-purple-500" />
-                        <span className="text-sm leading-relaxed text-base-text uppercase">
-                          REMOVER
-                        </span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                <span className="font-bold leading-tight text-base-text">
-                  R$ 9,90
-                </span>
-              </div>
-
-              <Divider />
-            </Fragment>
+                  <Divider />
+                </Fragment>
+              )
+            })}
 
             <div className="space-y-3">
               <div className="flex items-center justify-between text-base-text leading-tight">
