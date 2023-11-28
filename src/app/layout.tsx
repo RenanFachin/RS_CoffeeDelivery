@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Roboto, Baloo_2 } from 'next/font/google'
 import './globals.css'
 import { Header } from '@/components/header'
+import { CartContextProvider } from '@/contexts/CartProvider'
 
 const roboto = Roboto({
   subsets: ['latin'],
@@ -28,8 +29,10 @@ export default function RootLayout({
   return (
     <html className={`${roboto.variable} ${baloo.variable}`} lang="pt">
       <body className="bg-background max-w-[1120px] mx-auto min-h-screen antialiased">
-        <Header />
-        {children}
+        <CartContextProvider>
+          <Header />
+          {children}
+        </CartContextProvider>
       </body>
     </html>
   )
